@@ -16,7 +16,6 @@ class Map extends Model
     ];
 
     protected $hidden = [
-        'user_id',
-        'id',
+        'user_id'
     ];
 }

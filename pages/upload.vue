@@ -23,7 +23,10 @@
                 <p class="border border-yellow-500 border-l-4 p-6 bg-yellow-500/10 rounded-lg mb-3">Simply right click Download and Copy link address and use it 👍</p>
                 <div class="flex items-center justify-between p-3 rounded-lg bg-gray-100 mb-1" v-for="map in maps" :key="map.id">
                     <h3>{{ map.name }}</h3>
-                    <NuxtLink :to="map.file" class="py-2 px-3 bg-blue-600 text-white text-sm rounded-md">Download</NuxtLink>
+                    <div class="flex">
+                        <NuxtLink :to="map.file" class="py-2 px-3 bg-blue-600 text-white text-sm rounded-md">Download</NuxtLink>
+                        <button @click="deleteMapHandler(map.id)" class="py-2 px-3 bg-red-600 text-white text-sm rounded-md ml-3">Delete</button>
+                    </div>
                 </div>
             </div>
             <p v-else>Loading maps...</p>
@@ -97,6 +100,23 @@
                 processing.value = null;
                 failed.value = "Something is wrong";
             }
+        }
+    }
+
+    async function deleteMapHandler(id){
+        processing.value = "Deleting the map...";
+        try{
+            await $fetch(`${api}/api/upload/map/delete/${id}`, {
+                method: "DELETE",
+                headers: {
+                    'Authorization': 'Bearer '+cookie.value.token
+                }
+            });
+            success.value = "Map has been deleted";
+            processing.value = null;
+        }catch(e){
+            processing.value = null;
+            failed.value = "Unauthorized to delete this map!";
         }
     }
 </script>

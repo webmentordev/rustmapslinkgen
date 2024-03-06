@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Map;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class MapController extends Controller
 {
@@ -60,6 +61,15 @@ class MapController extends Controller
                 'message' => 'You have exceed the number of file uploads!'
             ], 422);
         }
+    }
 
+    public function delete(Map $map){
+        $this->authorize('delete', $map);
+        Storage::disk('public_disk')->delete($map->file);
+        $map->delete();
+        
+        return response()->json([
+            'message' => 'Map has been deleted'
+        ], 201);
     }
 }

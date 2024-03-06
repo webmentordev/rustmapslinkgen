@@ -9,6 +9,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::get('/maps', [MapController::class, 'index']);
     Route::post('/upload/map', [MapController::class, 'store']);
+    Route::delete('/upload/map/delete/{map}', [MapController::class, 'delete']);
     Route::delete('/logout', [AuthController::class, 'logout']);
 });
 

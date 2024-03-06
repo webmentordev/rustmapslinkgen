@@ -78,8 +78,10 @@
                 processing.value = null;
                 return navigateTo('/');
             }catch(e){
-                processing.value = null;
-                failed.value = "Something is wrong";
+                if(e.status == 401){
+                    processing.value = null;
+                    failed.value = "Invalid Login credientials!";
+                }
             }
         }
     }
